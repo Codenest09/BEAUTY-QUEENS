@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="About BEAUTY QUEENS - Learn about our mission, values, and expert team of beauty professionals.">
+    <title>About Us - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .team-member {
+            text-align: center;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-base);
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-img-placeholder {
+            width: 100%;
+            height: 300px;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .team-info {
+            padding: var(--spacing-md);
+        }
+
+        .team-name {
+            color: var(--color-rose);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-role {
+            color: var(--color-gold);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link active">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>About BEAUTY QUEENS</h1>
+            <p>Empowering women to feel confident, beautiful, and royal</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 class="mb-2">Our Story</h2>
+                <p style="font-size: 1.125rem; line-height: 1.8; color: var(--color-gray);">
+                    Founded with a passion for beauty and self-care, BEAUTY QUEENS has been transforming lives and
+                    boosting confidence since our inception. We believe every woman deserves to feel like royalty, and
+                    our mission is to provide premium beauty services in an elegant, welcoming environment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--gradient-overlay);">
+        <div class="container">
+            <h2 class="section-title">Our Mission & Values</h2>
+            <div class="grid grid-2">
+                <div class="glass-card p-2">
+                    <h3 style="color: var(--color-rose); margin-bottom: var(--spacing-sm);">Our Mission</h3>
+                    <p>To empower every woman to feel confident, beautiful, and royal through exceptional beauty
+                        services, premium products, and personalized care.</p>
+                </div>
+                <div class="glass-card p-2">
+                    <h3 style="color: var(--color-rose); margin-bottom: var(--spacing-sm);">Our Values</h3>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li>✨ <strong>Quality:</strong> Premium products and services</li>
+                        <li>🧼 <strong>Hygiene:</strong> Strict safety protocols</li>
+                        <li>💎 <strong>Elegance:</strong> Luxury experience always</li>
+                        <li>❤️ <strong>Care:</strong> Personalized attention for each client</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Meet Our Expert Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-img-placeholder">👩</div>
+                    <div class="team-info">
+                        <h3 class="team-name">Emma Rodriguez</h3>
+                        <p class="team-role">Lead Hair Stylist</p>
+                        <p style="color: var(--color-gray); font-size: 0.9rem;">10+ years of experience in hair styling
+                            and color. Specializes in balayage and bridal hairstyling.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-img-placeholder">👩</div>
+                    <div class="team-info">
+                        <h3 class="team-name">Sophia Chen</h3>
+                        <p class="team-role">Master Makeup Artist</p>
+                        <p style="color: var(--color-gray); font-size: 0.9rem;">Certified makeup artist specializing in
+                            bridal and editorial makeup. Featured in leading bridal magazines.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-img-placeholder">👩</div>
+                    <div class="team-info">
+                        <h3 class="team-name">Olivia Parker</h3>
+                        <p class="team-role">Skincare Specialist</p>
+                        <p style="color: var(--color-gray); font-size: 0.9rem;">Licensed esthetician with expertise in
+                            anti-aging treatments and luxury facials.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-img-placeholder">👩</div>
+                    <div class="team-info">
+                        <h3 class="team-name">Ava Thompson</h3>
+                        <p class="team-role">Spa Therapist</p>
+                        <p style="color: var(--color-gray); font-size: 0.9rem;">Certified massage therapist and
+                            aromatherapy expert creating ultimate relaxation experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare</a>
+                <a href="services.html#spa">Spa</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 123 Beauty Street<br>Your City, State 12345</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ hello@beautyqueens.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

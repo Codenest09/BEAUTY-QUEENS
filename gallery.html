@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="View BEAUTY QUEENS portfolio - stunning transformations, bridal makeup, hair styling, and beauty treatments.">
+    <title>Gallery - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            aspect-ratio: 3/4;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-base);
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link active">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Portfolio</h1>
+            <p>Stunning transformations that speak for themselves</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="images/makeup.jpg" alt="Bridal Makeup" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/hair-styling.jpg" alt="Hair Styling" class="gallery-img">
+                </div>
+                <div class="gallery-item"><img src="images/skincare.jpg" alt="Skincare" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/spa.jpg" alt="Spa Treatment" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/nails.jpg" alt="Nail Art" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/packages.jpg" alt="Beauty Package" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/client-1.jpg" alt="Happy Client" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/client-2.jpg" alt="Spa Client" class="gallery-img"></div>
+                <div class="gallery-item"><img src="images/client-3.jpg" alt="Hair Transformation" class="gallery-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare</a>
+                <a href="services.html#spa">Spa</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 123 Beauty Street<br>Your City, State 12345</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ hello@beautyqueens.com</p>
+                <p>⏰ Mon-Sat: 9 AM - 8 PM</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

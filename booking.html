@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Book your appointment at BEAUTY QUEENS - Easy online booking for all beauty services.">
+    <title>Book Appointment - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Booking-specific styles */
+        .booking-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        .booking-step {
+            display: none;
+        }
+
+        .booking-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .service-select-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .service-select-card {
+            background: var(--color-white);
+            border: 3px solid var(--color-light-gray);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .service-select-card:hover {
+            border-color: var(--color-rose);
+            transform: translateY(-3px);
+        }
+
+        .service-select-card.selected {
+            border-color: var(--color-rose);
+            background: var(--gradient-card);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stylist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .stylist-card {
+            text-align: center;
+            background: var(--color-white);
+            border: 3px solid var(--color-light-gray);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+
+        .stylist-card:hover,
+        .stylist-card.selected {
+            border-color: var(--color-rose);
+            background: var(--gradient-card);
+        }
+
+        .booking-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Time Slot Cards Styling */
+        .time-slot-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 248, 250, 0.9));
+            border: 2px solid var(--color-lavender);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-slot-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-hero);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .time-slot-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--color-rose);
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .time-slot-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .time-slot-card.selected {
+            background: var(--gradient-hero);
+            border-color: var(--color-rose);
+            border-width: 3px;
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .time-slot-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--color-rose);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: checkmark 0.3s ease;
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0) rotate(-45deg);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(10deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .time-slot-card .time-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-slot-card .time-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-dark);
+            margin-bottom: 0.3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-slot-card .time-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-rose);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255, 105, 180, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-slot-card.selected .time-label,
+        .time-slot-card.selected .time-badge {
+            color: white;
+        }
+
+        .time-slot-card.selected .time-badge {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Floating animation for decorative flowers */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        /* Date input enhanced styling */
+        #date {
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        #date:hover {
+            border-color: var(--color-rose) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 182, 201, 0.25);
+        }
+
+        #date:focus {
+            border-color: var(--color-rose) !important;
+            box-shadow: 0 0 0 4px rgba(255, 182, 201, 0.2);
+            transform: scale(1.01);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .time-slots-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+            }
+
+            .time-slot-card {
+                padding: 1rem 0.5rem;
+            }
+
+            .time-slot-card .time-icon {
+                font-size: 1.5rem;
+            }
+
+            .time-slot-card .time-label {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Enhanced Contact Form Styling for Booking */
+        .contact-info-section input[type="text"],
+        .contact-info-section input[type="tel"],
+        .contact-info-section input[type="email"],
+        .contact-info-section textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--color-lavender);
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 250, 0.95));
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--color-dark);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 2px 8px rgba(255, 182, 201, 0.1);
+        }
+
+        .contact-info-section input::placeholder,
+        .contact-info-section textarea::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+            font-style: italic;
+        }
+
+        .contact-info-section input:hover,
+        .contact-info-section textarea:hover {
+            border-color: var(--color-rose);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 182, 201, 0.25);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 248, 250, 1));
+        }
+
+        .contact-info-section input:focus,
+        .contact-info-section textarea:focus {
+            outline: none;
+            border-color: var(--color-rose);
+            border-width: 3px;
+            transform: scale(1.01);
+            box-shadow: 0 0 0 4px rgba(255, 182, 201, 0.2), 0 4px 15px rgba(255, 105, 180, 0.3);
+            background: white;
+        }
+
+        .contact-info-section label {
+            font-size: 1rem;
+            color: var(--color-dark);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info-section textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Form group spacing */
+        .contact-info-section .form-group {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+    <link rel="stylesheet" href="enhanced-animations.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="fade-in">Book Your Appointment</h1>
+            <p class="fade-in">Choose your service and time - it's that easy!</p>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="section">
+        <div class="booking-container">
+
+            <!-- Step 1: Choose Service -->
+            <div class="booking-step active" id="step1">
+                <h2 class="text-center mb-2">Choose Your Service</h2>
+                <div class="service-select-grid">
+                    <div class="service-select-card" data-service="hair">
+                        <div class="service-icon">💇</div>
+                        <h4>Hair Styling</h4>
+                        <p>From ₹4,000</p>
+                    </div>
+                    <div class="service-select-card" data-service="makeup">
+                        <div class="service-icon">💄</div>
+                        <h4>Makeup & Bridal</h4>
+                        <p>From ₹4,000</p>
+                    </div>
+                    <div class="service-select-card" data-service="skincare">
+                        <div class="service-icon">✨</div>
+                        <h4>Skincare & Facials</h4>
+                        <p>From ₹5,500</p>
+                    </div>
+                    <div class="service-select-card" data-service="spa">
+                        <div class="service-icon">🧖</div>
+                        <h4>Spa & Relaxation</h4>
+                        <p>From ₹5,500</p>
+                    </div>
+                    <div class="service-select-card" data-service="nails">
+                        <div class="service-icon">💅</div>
+                        <h4>Nail Care</h4>
+                        <p>From ₹2,500</p>
+                    </div>
+                    <div class="service-select-card" data-service="package">
+                        <div class="service-icon">👑</div>
+                        <h4>Beauty Package</h4>
+                        <p>From ₹12,000</p>
+                    </div>
+                </div>
+                <div class="booking-actions">
+                    <div></div>
+                    <button class="btn btn-primary next-step">Next Step →</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Choose Stylist -->
+            <div class="booking-step" id="step2">
+                <h2 class="text-center mb-2">Choose Your Stylist</h2>
+                <div class="stylist-grid">
+                    <div class="stylist-card" data-stylist="emma">
+                        <div class="stylist-img"
+                            style="width: 80px; height: 80px; margin: 0 auto var(--spacing-sm); background: var(--gradient-hero); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            👩</div>
+                        <h4>Emma</h4>
+                        <p>Hair Specialist</p>
+                    </div>
+                    <div class="stylist-card" data-stylist="sophia">
+                        <div class="stylist-img"
+                            style="width: 80px; height: 80px; margin: 0 auto var(--spacing-sm); background: var(--gradient-hero); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            👩</div>
+                        <h4>Sophia</h4>
+                        <p>Makeup Artist</p>
+                    </div>
+                    <div class="stylist-card" data-stylist="olivia">
+                        <div class="stylist-img"
+                            style="width: 80px; height: 80px; margin: 0 auto var(--spacing-sm); background: var(--gradient-hero); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            👩</div>
+                        <h4>Olivia</h4>
+                        <p>Skincare Expert</p>
+                    </div>
+                    <div class="stylist-card" data-stylist="ava">
+                        <div class="stylist-img"
+                            style="width: 80px; height: 80px; margin: 0 auto var(--spacing-sm); background: var(--gradient-hero); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            👩</div>
+                        <h4>Ava</h4>
+                        <p>Spa Therapist</p>
+                    </div>
+                </div>
+                <div class="booking-actions">
+                    <button class="btn btn-secondary prev-step">← Previous</button>
+                    <button class="btn btn-primary next-step">Next Step →</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Choose Date & Time -->
+            <div class="booking-step" id="step3">
+                <h2 class="text-center mb-1"
+                    style="background: var(--gradient-hero); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
+                    Choose Date & Time</h2>
+                <p class="text-center mb-2" style="color: var(--color-gray); font-size: 1.1rem;">✨ Pick your perfect
+                    moment to feel like a queen ✨</p>
+
+                <div class="datetime-container">
+                    <!-- Date Selection Section -->
+                    <div class="date-section glass-card"
+                        style="padding: var(--spacing-lg); margin-bottom: var(--spacing-lg); position: relative; overflow: hidden;">
+                        <div class="floating-flower"
+                            style="position: absolute; top: 10px; right: 10px; font-size: 3rem; opacity: 0.1; animation: float 3s ease-in-out infinite;">
+                            🌸</div>
+                        <div class="floating-flower"
+                            style="position: absolute; bottom: 10px; left: 10px; font-size: 2.5rem; opacity: 0.1; animation: float 4s ease-in-out infinite; animation-delay: 1s;">
+                            💐</div>
+
+                        <h3
+                            style="color: var(--color-rose); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.8rem;">📅</span> Select Your Date
+                        </h3>
+
+                        <div class="calendar-container">
+                            <input type="date" id="date" name="date" required
+                                style="width: 100%; padding: 1.5rem; font-size: 1.2rem; border: 3px solid var(--color-lavender); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(255, 182, 201, 0.08), rgba(230, 213, 232, 0.08)); cursor: pointer; transition: all 0.3s;">
+                        </div>
+
+                        <p
+                            style="margin-top: var(--spacing-sm); color: var(--color-gray); font-size: 0.9rem; text-align: center;">
+                            💝 We're open Mon-Sat: 9 AM - 8 PM | Sun: 10 AM - 6 PM
+                        </p>
+                    </div>
+
+                    <!-- Time Selection Section -->
+                    <div class="time-section glass-card"
+                        style="padding: var(--spacing-lg); margin-bottom: var(--spacing-lg); position: relative; overflow: hidden;">
+                        <div class="floating-flower"
+                            style="position: absolute; top: 10px; left: 10px; font-size: 2.5rem; opacity: 0.1; animation: float 3.5s ease-in-out infinite;">
+                            💫</div>
+
+                        <h3
+                            style="color: var(--color-rose); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.8rem;">⏰</span> Select Your Time
+                        </h3>
+
+                        <div class="time-slots-grid"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem;">
+                            <div class="time-slot-card" data-time="09:00">
+                                <div class="time-icon">🌅</div>
+                                <div class="time-label">9:00 AM</div>
+                                <div class="time-badge">Morning</div>
+                            </div>
+                            <div class="time-slot-card" data-time="10:00">
+                                <div class="time-icon">☀️</div>
+                                <div class="time-label">10:00 AM</div>
+                                <div class="time-badge">Morning</div>
+                            </div>
+                            <div class="time-slot-card" data-time="11:00">
+                                <div class="time-icon">☀️</div>
+                                <div class="time-label">11:00 AM</div>
+                                <div class="time-badge">Morning</div>
+                            </div>
+                            <div class="time-slot-card" data-time="12:00">
+                                <div class="time-icon">🌤️</div>
+                                <div class="time-label">12:00 PM</div>
+                                <div class="time-badge">Noon</div>
+                            </div>
+                            <div class="time-slot-card" data-time="13:00">
+                                <div class="time-icon">🌤️</div>
+                                <div class="time-label">1:00 PM</div>
+                                <div class="time-badge">Afternoon</div>
+                            </div>
+                            <div class="time-slot-card" data-time="14:00">
+                                <div class="time-icon">⛅</div>
+                                <div class="time-label">2:00 PM</div>
+                                <div class="time-badge">Afternoon</div>
+                            </div>
+                            <div class="time-slot-card" data-time="15:00">
+                                <div class="time-icon">⛅</div>
+                                <div class="time-label">3:00 PM</div>
+                                <div class="time-badge">Afternoon</div>
+                            </div>
+                            <div class="time-slot-card" data-time="16:00">
+                                <div class="time-icon">🌆</div>
+                                <div class="time-label">4:00 PM</div>
+                                <div class="time-badge">Evening</div>
+                            </div>
+                            <div class="time-slot-card" data-time="17:00">
+                                <div class="time-icon">🌆</div>
+                                <div class="time-label">5:00 PM</div>
+                                <div class="time-badge">Evening</div>
+                            </div>
+                            <div class="time-slot-card" data-time="18:00">
+                                <div class="time-icon">🌇</div>
+                                <div class="time-label">6:00 PM</div>
+                                <div class="time-badge">Evening</div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="selected-time" name="time" required>
+                    </div>
+
+                    <!-- Contact Information Section -->
+                    <div class="contact-info-section glass-card"
+                        style="padding: var(--spacing-lg); position: relative; overflow: hidden;">
+                        <div class="floating-flower"
+                            style="position: absolute; top: 10px; right: 10px; font-size: 2.5rem; opacity: 0.1; animation: float 3s ease-in-out infinite; animation-delay: 0.5s;">
+                            👑</div>
+
+                        <h3
+                            style="color: var(--color-rose); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.8rem;">✨</span> Your Contact Details
+                        </h3>
+
+                        <form class="contact-grid">
+                            <div class="form-group">
+                                <label for="name"
+                                    style="color: var(--color-dark); font-weight: 600; margin-bottom: 0.5rem; display: block;">👤
+                                    Your Name</label>
+                                <input type="text" id="name" name="name" required placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"
+                                    style="color: var(--color-dark); font-weight: 600; margin-bottom: 0.5rem; display: block;">📞
+                                    Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX">
+                            </div>
+                            <div class="form-group">
+                                <label for="email"
+                                    style="color: var(--color-dark); font-weight: 600; margin-bottom: 0.5rem; display: block;">✉️
+                                    Email Address</label>
+                                <input type="email" id="email" name="email" required placeholder="your@email.com">
+                            </div>
+                            <div class="form-group" style="grid-column: 1 / -1;">
+                                <label for="notes"
+                                    style="color: var(--color-dark); font-weight: 600; margin-bottom: 0.5rem; display: block;">💌
+                                    Special Requests (Optional)</label>
+                                <textarea id="notes" name="notes" rows="3"
+                                    placeholder="Any special requirements or preferences..."></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="booking-actions">
+                    <button class="btn btn-secondary prev-step">← Previous</button>
+                    <button class="btn btn-gold" id="confirmBtn">Confirm Booking ✓</button>
+                </div>
+            </div>
+
+            <!-- Confirmation Message -->
+            <div class="booking-step" id="confirmation">
+                <div class="text-center">
+                    <h2 style="color: var(--color-rose); margin-bottom: var(--spacing-md);">🎉 Booking Confirmed!</h2>
+                    <div class="glass-card p-3">
+                        <p style="font-size: 1.25rem; margin-bottom: var(--spacing-sm);">Thank you for choosing BEAUTY
+                            QUEENS!</p>
+                        <p>Your appointment has been successfully booked. We've sent a confirmation email to your
+                            registered email address.</p>
+                        <p style="margin-top: var(--spacing-md);">We look forward to making you feel like a queen! ✨👑
+                        </p>
+                    </div>
+                    <div class="mt-3">
+                        <a href="index.html" class="btn btn-primary">Back to Home</a>
+                        <a href="services.html" class="btn btn-secondary">View All Services</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen. Experience luxury beauty care and self-care at its finest.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html">Book Appointment</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling & Care</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare & Facials</a>
+                <a href="services.html#spa">Spa & Relaxation</a>
+                <a href="services.html#nails">Nail Care</a>
+                <a href="services.html#packages">Beauty Packages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 123 Beauty Street<br>Fashion District<br>Your City, State 12345</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ hello@beautyqueens.com</p>
+                <p>⏰ Mon-Sat: 9 AM - 8 PM<br>Sun: 10 AM - 6 PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,247 @@
+/* ===================================
+   ENHANCED CARD & BUTTON ANIMATIONS
+   =================================== */
+
+/* Enhanced 3D Card Hover Effects */
+.card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    transform-style: preserve-3d;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 182, 201, 0.1), rgba(230, 213, 232, 0.1));
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card:hover {
+    transform: translateY(-12px) rotateX(5deg) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3) !important;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card:hover .card-img {
+    transform: scale(1.15) rotate(2deg) !important;
+    filter: brightness(1.1);
+}
+
+/* Enhanced Button Click Effects */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 12px 35px rgba(255, 182, 201, 0.5) !important;
+    animation: pulse 1.5s infinite;
+}
+
+.btn-primary:active {
+    transform: translateY(-1px) scale(0.98) !important;
+    box-shadow: 0 4px 15px rgba(255, 182, 201, 0.4) !important;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+}
+
+.btn-secondary:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+.btn-gold:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 0 8px 28px rgba(212, 175, 55, 0.5) !important;
+}
+
+.btn-gold:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Pulse animation for primary buttons */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 182, 201, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 182, 201, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 182, 201, 0);
+    }
+}
+
+/* Next/Prev Button Enhancements */
+.next-step,
+.prev-step,
+.testimonial-btn {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.next-step:hover,
+.prev-step:hover {
+    transform: translateY(-3px) scale(1.05) !important;
+}
+
+.next-step:active,
+.prev-step:active {
+    transform: translateY(0) scale(0.95) !important;
+}
+
+/* ===================================
+   THEMED DATE & TIME PICKER STYLES
+   =================================== */
+
+/* Enhanced Input Fields */
+input[type="date"],
+input[type="time"],
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: linear-gradient(135deg, rgba(255, 182, 201, 0.05), rgba(230, 213, 232, 0.05)) !important;
+    border: 2px solid var(--color-lavender) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem 1.25rem !important;
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    color: var(--color-dark) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+}
+
+input[type="date"]:hover,
+input[type="time"]:hover,
+select:hover {
+    border-color: var(--color-rose) !important;
+    background: linear-gradient(135deg, rgba(255, 182, 201, 0.1), rgba(230, 213, 232, 0.1)) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 182, 201, 0.2) !important;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus {
+    outline: none !important;
+    border-color: var(--color-rose) !important;
+    background: var(--color-white) !important;
+    box-shadow: 0 0 0 4px rgba(255, 182, 201, 0.15) !important;
+    transform: scale(1.02) !important;
+}
+
+/* Custom calendar icon for date input */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px;
+    filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(315deg) brightness(100%) contrast(101%);
+    transition: all 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+    background: rgba(255, 182, 201, 0.2);
+    transform: scale(1.1);
+}
+
+/* Custom select dropdown */
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FF69B4' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1rem center !important;
+    padding-right: 3rem !important;
+}
+
+select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FF69B4' d='M6 3l5 5H1z'/%3E%3C/svg%3E") !important;
+}
+
+/* Glass card hover enhancements */
+.glass-card {
+    transition: all 0.4s ease !important;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 12px 30px rgba(255, 182, 201, 0.25) !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Service and Stylist Card Selection Enhancements */
+.service-select-card,
+.stylist-card {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.service-select-card:hover,
+.stylist-card:hover {
+    transform: translateY(-5px) scale(1.03) !important;
+    box-shadow: 0 8px 20px rgba(255, 105, 180, 0.2) !important;
+}
+
+.service-select-card:active,
+.stylist-card:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+.service-select-card.selected,
+.stylist-card.selected {
+    animation: selected-pulse 0.6s ease;
+}
+
+@keyframes selected-pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Package card enhancements */
+.package-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.package-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 15px 35px rgba(255, 182, 201, 0.3) !important;
+}
