@@ -67,8 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const totalSlides = testimonials.length;
 
         function updateSlider() {
-            const offset = -currentSlide * 100;
-            testimonialTrack.style.transform = `translateX(${offset}%)`;
+            const slideWidth = testimonials[0].offsetWidth;
+            const style = window.getComputedStyle(testimonialTrack);
+            const gap = parseFloat(style.gap) || 0;
+            const offset = -currentSlide * (slideWidth + gap);
+            testimonialTrack.style.transform = `translateX(${offset}px)`;
         }
 
         nextBtn.addEventListener('click', function () {
@@ -86,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function () {
             currentSlide = (currentSlide + 1) % totalSlides;
             updateSlider();
         }, 5000);
+
+        // Update on resize to fix pixel values
+        window.addEventListener('resize', updateSlider);
     }
 
     // ===================================

@@ -880,6 +880,12 @@ p {
     text-align: center;
 }
 
+@media (max-width: 768px) {
+    .testimonial-card {
+        padding: var(--spacing-md);
+    }
+}
+
 .testimonial-stars {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-sm);
