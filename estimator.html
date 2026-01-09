@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Estimate the cost of your beauty services at BEAUTY QUEENS. Plan your perfect spa day with our interactive price calculator.">
+    <title>Price Estimator - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="enhanced-animations.css">
+    <style>
+        .estimator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: var(--spacing-lg);
+            position: relative;
+        }
+
+        .category-block {
+            margin-bottom: var(--spacing-lg);
+            border-bottom: 2px solid var(--color-light-pink);
+            padding-bottom: var(--spacing-md);
+        }
+
+        .category-title {
+            color: var(--color-rose);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-checkbox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-checkbox:hover {
+            background: var(--color-light-pink);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-rose);
+        }
+
+        .service-price {
+            font-weight: bold;
+            color: var(--color-dark);
+        }
+
+        .total-box {
+            background: var(--color-dark);
+            color: var(--color-gold);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            position: sticky;
+            bottom: 20px;
+            margin-top: var(--spacing-lg);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .total-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="loyalty.html" class="nav-link">Queen's Club</a></li>
+                <li><a href="estimator.html" class="nav-link active">Price Estimator</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="fade-in">Estimate Your Experience</h1>
+            <p class="fade-in">Select the services you desire to calculate an estimated total cost.</p>
+        </div>
+    </section>
+
+    <!-- Estimator Tool -->
+    <section class="section" style="background-color: #FAFAFA;">
+        <div class="container">
+            <div class="estimator-container slide-in-bottom">
+
+                <!-- Hair Services -->
+                <div class="category-block">
+                    <h3 class="category-title">💇 Hair Services</h3>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="4000"> Hair Cut & Styling
+                        </label>
+                        <span class="service-price">₹4,000</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="6500"> Hair Coloring (Basic)
+                        </label>
+                        <span class="service-price">₹6,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="5000"> Hair Spa Treatment
+                        </label>
+                        <span class="service-price">₹5,000</span>
+                    </div>
+                </div>
+
+                <!-- Makeup Services -->
+                <div class="category-block">
+                    <h3 class="category-title">💄 Makeup Services</h3>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="6500"> Party Makeup
+                        </label>
+                        <span class="service-price">₹6,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="20000"> Bridal Makeup (Standard)
+                        </label>
+                        <span class="service-price">₹20,000</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="4000"> Natural Day Makeup
+                        </label>
+                        <span class="service-price">₹4,000</span>
+                    </div>
+                </div>
+
+                <!-- Spa Services -->
+                <div class="category-block">
+                    <h3 class="category-title">🧖 Spa & Wellness</h3>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="7500"> Full Body Massage
+                        </label>
+                        <span class="service-price">₹7,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="5500"> Classic Facial
+                        </label>
+                        <span class="service-price">₹5,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="10000"> Anti-Aging Treatment
+                        </label>
+                        <span class="service-price">₹10,000</span>
+                    </div>
+                </div>
+
+                <!-- Nail Services -->
+                <div class="category-block" style="border-bottom: none;">
+                    <h3 class="category-title">💅 Nail Care</h3>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="2500"> Classic Manicure
+                        </label>
+                        <span class="service-price">₹2,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="3500"> Luxury Pedicure
+                        </label>
+                        <span class="service-price">₹3,500</span>
+                    </div>
+                    <div class="service-checkbox">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" data-price="4000"> Nail Art & Extensions
+                        </label>
+                        <span class="service-price">₹4,000</span>
+                    </div>
+                </div>
+
+                <!-- Sticky Total Box -->
+                <div class="total-box">
+                    <h3>Estimated Total</h3>
+                    <div class="total-amount" id="totalAmount">₹0</div>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">*Final price may vary based on
+                        consultation.</p>
+                    <a href="booking.html" class="btn btn-gold" style="width: 100%; display: inline-block;">Book These
+                        Services</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen. Experience luxury beauty care and self-care at its finest.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="loyalty.html">Queen's Club</a>
+                <a href="estimator.html">Price Estimator</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html">Book Appointment</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling & Care</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare & Facials</a>
+                <a href="services.html#spa">Spa & Relaxation</a>
+                <a href="services.html#nails">Nail Care</a>
+                <a href="services.html#packages">Beauty Packages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 13-453/A Ambedkar nagar Arilova<br>Visakapatnam 530040</p>
+                <p>📞 8309293975</p>
+                <p>✉️ msisir2006@gmail.com</p>
+                <p>⏰ Mon-Sat: 9 AM - 8 PM<br>Sun: 10 AM - 6 PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline script for price calculation
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.checkbox-input');
+            const totalDisplay = document.getElementById('totalAmount');
+
+            function calculateTotal() {
+                let total = 0;
+                checkboxes.forEach(box => {
+                    if (box.checked) {
+                        total += parseInt(box.getAttribute('data-price'));
+                    }
+                });
+                // Animate the number change
+                totalDisplay.innerText = '₹' + total.toLocaleString('en-IN');
+            }
+
+            checkboxes.forEach(box => {
+                box.addEventListener('change', calculateTotal);
+            });
+        });
+    </script>
+</body>
+
+</html>

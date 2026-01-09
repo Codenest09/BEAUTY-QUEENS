@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Join the BEAUTY QUEENS Loyalty Club. Earn points, enjoy exclusive rewards, and get treated like royalty.">
+    <title>Queen's Club Loyalty - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="enhanced-animations.css">
+    <style>
+        .loyalty-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/spa-massage.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: var(--spacing-xxl);
+        }
+
+        .tier-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            transition: var(--transition-card);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .tier-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tier-silver {
+            border-color: #C0C0C0;
+        }
+
+        .tier-silver .tier-icon {
+            text-shadow: 0 0 20px rgba(192, 192, 192, 0.5);
+        }
+
+        .tier-gold {
+            border-color: #FFD700;
+            background: linear-gradient(to bottom, #fff, #fff9f0);
+            transform: scale(1.05);
+            /* Highlight Gold by default */
+        }
+
+        .tier-gold:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .tier-gold .tier-icon {
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .tier-platinum {
+            border-color: #E5E4E2;
+            background: linear-gradient(to bottom, #fff, #f8f8f8);
+        }
+
+        .tier-platinum .tier-icon {
+            text-shadow: 0 0 20px rgba(229, 228, 226, 0.5);
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: var(--spacing-md) 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .join-btn {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="loyalty.html" class="nav-link active">Queen's Club</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="loyalty-hero">
+        <div class="container slide-in-bottom">
+            <h1 class="hero-title">The Queen's Club</h1>
+            <p style="font-size: 1.5rem; max-width: 600px; margin: 0 auto;">Join our exclusive loyalty program and get
+                treated like royalty every time you visit.</p>
+        </div>
+    </header>
+
+    <!-- Tiers Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Membership Tiers</h2>
+            <p class="text-center mb-5">Earn points for every service and unlock exclusive rewards.</p>
+
+            <div class="grid grid-3">
+                <!-- Silver Tier -->
+                <div class="tier-card tier-silver fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="tier-icon">🥈</div>
+                    <h3>Silver Princess</h3>
+                    <p style="color: var(--color-gray); font-style: italic;">Free to Join</p>
+                    <hr style="margin: 1.5rem 0; opacity: 0.2;">
+                    <ul class="benefits-list">
+                        <li>✅ Earn 1 point per ₹100 spent</li>
+                        <li>✅ Birthday Month Discount (10%)</li>
+                        <li>✅ Access to Member-only offers</li>
+                    </ul>
+                    <button class="btn btn-secondary join-btn">Join for Free</button>
+                </div>
+
+                <!-- Gold Tier -->
+                <div class="tier-card tier-gold fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="absolute-badge"
+                        style="position: absolute; top: 0; right: 0; background: var(--color-gold); color: black; padding: 5px 15px; font-weight: bold; border-bottom-left-radius: 10px;">
+                        POPULAR</div>
+                    <div class="tier-icon">👑</div>
+                    <h3>Gold Queen</h3>
+                    <p style="color: var(--color-gray); font-style: italic;">Spend ₹10,000 / year</p>
+                    <hr style="margin: 1.5rem 0; opacity: 0.2;">
+                    <ul class="benefits-list">
+                        <li>✅ Earn 2 points per ₹100 spent</li>
+                        <li>✅ Birthday Month Discount (20%)</li>
+                        <li>✅ Priority Booking Access</li>
+                        <li>✅ <strong>Free</strong> Quarterly Hair Spa</li>
+                    </ul>
+                    <button class="btn btn-gold join-btn">Upgrade to Gold</button>
+                </div>
+
+                <!-- Platinum Tier -->
+                <div class="tier-card tier-platinum fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="tier-icon">💎</div>
+                    <h3>Platinum Empress</h3>
+                    <p style="color: var(--color-gray); font-style: italic;">Spend ₹50,000 / year</p>
+                    <hr style="margin: 1.5rem 0; opacity: 0.2;">
+                    <ul class="benefits-list">
+                        <li>✅ Earn 3 points per ₹100 spent</li>
+                        <li>✅ Birthday Month Discount (30%)</li>
+                        <li>✅ Priority Booking & Dedicated Stylist</li>
+                        <li>✅ <strong>Free</strong> Monthly Facial</li>
+                        <li>✅ Invite to VIP Events</li>
+                    </ul>
+                    <button class="btn btn-primary join-btn">Go Platinum</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ / How it works -->
+    <section class="section" style="background-color: var(--color-light-pink);">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="grid grid-3 text-center">
+                <div class="card glass-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">✍️</div>
+                    <h3>1. Sign Up</h3>
+                    <p>Create an account simply by booking your first appointment or visiting our front desk.</p>
+                </div>
+                <div class="card glass-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💅</div>
+                    <h3>2. Enjoy Services</h3>
+                    <p>Book any hair, skin, or spa service. Points are automatically credited to your account.</p>
+                </div>
+                <div class="card glass-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🎁</div>
+                    <h3>3. Redeem Rewards</h3>
+                    <p>Use your points to pay for services or redeem them for exclusive beauty products.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen. Experience luxury beauty care and self-care at its finest.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="loyalty.html">Queen's Club</a>
+                <a href="estimator.html">Price Estimator</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html">Book Appointment</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling & Care</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare & Facials</a>
+                <a href="services.html#spa">Spa & Relaxation</a>
+                <a href="services.html#nails">Nail Care</a>
+                <a href="services.html#packages">Beauty Packages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 13-453/A Ambedkar nagar Arilova<br>Visakapatnam 530040</p>
+                <p>📞 8309293975</p>
+                <p>✉️ msisir2006@gmail.com</p>
+                <p>⏰ Mon-Sat: 9 AM - 8 PM<br>Sun: 10 AM - 6 PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

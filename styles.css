@@ -318,6 +318,17 @@ p {
     box-shadow: 0 6px 24px rgba(212, 175, 55, 0.4);
 }
 
+.btn-gold {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+}
+
+.btn-gold:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.4);
+}
+
 /* ===================================
    Cards
    =================================== */
