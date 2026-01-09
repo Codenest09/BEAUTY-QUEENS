@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="User Profile - BEAUTY QUEENS">
+    <title>My Profile - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="enhanced-animations.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="loyalty.html" class="nav-link">Queen's Club</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="profile.html" class="nav-link active">Profile</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header" style="background: var(--gradient-hero); padding: 8rem 0 4rem; text-align: center;">
+        <div class="container">
+            <h1 class="fade-in-up">My Profile</h1>
+            <p class="fade-in-up" style="animation-delay: 0.1s;">Manage your account and membership</p>
+        </div>
+    </header>
+
+    <!-- Profile Content -->
+    <section class="section profile-section">
+        <div class="container">
+            <div class="profile-grid">
+
+                <!-- User Info Card -->
+                <div class="card glass-card fade-in-up profile-card-main">
+                    <div class="profile-header">
+                        <div class="profile-img-container">
+                            <img src="images/client-2.jpg" alt="Profile Picture" class="profile-img" id="profileImg">
+                            <button class="edit-photo-btn">📷</button>
+                        </div>
+                        <h2 id="profileName">Loading Name...</h2>
+                        <p class="member-badge">👑 Gold Queen Member</p>
+                    </div>
+
+                    <div class="profile-details mt-2">
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <span class="info-value" id="profileEmail">loading@example.com</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value" id="profilePhone">+91 - Not Set</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Location</span>
+                            <span class="info-value" id="profileAddress">Visakhapatnam, India</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions mt-2 text-center">
+                        <button class="btn btn-secondary" onclick="alert('Edit Profile feature coming soon!')">Edit
+                            Profile</button>
+                        <button class="btn btn-gold" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+
+                <!-- Membership & Stats -->
+                <div class="profile-stats-container">
+
+                    <!-- Membership Card -->
+                    <div class="card glass-card fade-in-up membership-card" style="animation-delay: 0.2s;">
+                        <div class="card-content">
+                            <h3 class="card-title">Queen's Club Membership</h3>
+                            <div class="membership-info">
+                                <div class="points-circle">
+                                    <span class="points-value">250</span>
+                                    <span class="points-label">Points</span>
+                                </div>
+                                <div class="membership-details">
+                                    <p><strong>Current Tier:</strong> Gold</p>
+                                    <p><strong>Next Tier:</strong> Platinum (500 pts)</p>
+                                    <div class="progress-bar-container mt-1">
+                                        <div class="progress-bar" style="width: 50%;"></div>
+                                    </div>
+                                    <p class="text-sm mt-1" style="font-size: 0.9rem; color: var(--color-gray);">You are
+                                        250 points away from Platinum status!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity / Stats -->
+                    <div class="card glass-card fade-in-up mt-2" style="animation-delay: 0.3s;">
+                        <div class="card-content">
+                            <h3 class="card-title">My Activity</h3>
+                            <ul class="activity-list">
+                                <li class="activity-item">
+                                    <span class="activity-icon">📅</span>
+                                    <div class="activity-text">
+                                        <h4>Upcoming Appointment</h4>
+                                        <p>Hair Spa - Tomorrow, 10:00 AM</p>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <span class="activity-icon">✨</span>
+                                    <div class="activity-text">
+                                        <h4>Last Visit</h4>
+                                        <p>Facial Treatment - 2 weeks ago</p>
+                                    </div>
+                                </li>
+                                <li class="activity-item">
+                                    <span class="activity-icon">💳</span>
+                                    <div class="activity-text">
+                                        <h4>Total Savings</h4>
+                                        <p>₹1,200 saved this year</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen. Experience luxury beauty care and self-care at its finest.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="loyalty.html">Queen's Club</a>
+                <a href="estimator.html">Price Estimator</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html">Book Appointment</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Our Services</h3>
+                <a href="services.html#hair">Hair Styling & Care</a>
+                <a href="services.html#makeup">Makeup & Bridal</a>
+                <a href="services.html#skincare">Skincare & Facials</a>
+                <a href="services.html#spa">Spa & Relaxation</a>
+                <a href="services.html#nails">Nail Care</a>
+                <a href="services.html#packages">Beauty Packages</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 13-453/A Ambedkar nagar Arilova<br>Visakhapatnam 530040</p>
+                <p>📞 8309293975</p>
+                <p>✉️ msisir2006@gmail.com</p>
+                <p>⏰ Mon-Sat: 9 AM - 8 PM<br>Sun: 10 AM - 6 PM</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline script for specific profile functionality ensuring it runs after main script
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check auth
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                // If not logged in, redirect to login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Populate data
+            const name = localStorage.getItem('userName') || 'Beauty Queen';
+            const email = localStorage.getItem('userEmail') || 'queen@example.com';
+
+            document.getElementById('profileName').textContent = name;
+            document.getElementById('profileEmail').textContent = email;
+
+            // Logout handler
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userName');
+                    localStorage.removeItem('userEmail');
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
