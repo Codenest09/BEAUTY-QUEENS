@@ -464,3 +464,121 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+/* ===================================
+   Authentication Pages Logic
+   =================================== */
+document.addEventListener('DOMContentLoaded', function () {
+    // Login Form
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Show success message
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.textContent = '✓ Login successful! Redirecting...';
+            successMsg.style.cssText = `
+                background: linear-gradient(135deg, #FFB6C9, #E6D5E8);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+                text-align: center;
+                font-weight: 600;
+                animation: fadeIn 0.5s ease;
+            `;
+
+            loginForm.appendChild(successMsg);
+
+            // Simulate redirect (in real app, this would authenticate with backend)
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        });
+    }
+
+    // Signup Form
+    const signupForm = document.getElementById('signupForm');
+    if (signupForm) {
+        signupForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const phone = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            const termsAgree = document.getElementById('terms-agree').checked;
+
+            // Basic validation
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Terms agreement
+            if (!termsAgree) {
+                alert('Please agree to the Terms & Conditions');
+                return;
+            }
+
+            // Show success message
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.textContent = '✓ Account created successfully! Redirecting to login...';
+            successMsg.style.cssText = `
+                background: linear-gradient(135deg, #FFB6C9, #E6D5E8);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+                text-align: center;
+                font-weight: 600;
+                animation: fadeIn 0.5s ease;
+            `;
+
+            signupForm.appendChild(successMsg);
+
+            // Simulate redirect (in real app, this would create account on backend)
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        });
+    }
+});

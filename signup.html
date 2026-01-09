@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join BEAUTY QUEENS - Create your account and start your royal beauty journey.">
+    <title>Sign Up - BEAUTY QUEENS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="enhanced-animations.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BEAUTY QUEENS</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="loyalty.html" class="nav-link">Queen's Club</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="booking.html" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">Book Now</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Signup Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <!-- Decorative Flowers -->
+            <div class="auth-decoration auth-decoration-left">🌸</div>
+            <div class="auth-decoration auth-decoration-right">💐</div>
+
+            <div class="auth-card glass-card fade-in">
+                <div class="auth-icon">👑</div>
+                <h1 class="auth-title">Join the Royal Family</h1>
+                <p class="auth-subtitle">Create your account and become a Beauty Queen</p>
+
+                <form class="auth-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="signup-name">
+                            <span class="label-icon">👤</span>
+                            Full Name
+                        </label>
+                        <input type="text" id="signup-name" name="name" placeholder="Your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-email">
+                            <span class="label-icon">✉️</span>
+                            Email Address
+                        </label>
+                        <input type="email" id="signup-email" name="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-phone">
+                            <span class="label-icon">📞</span>
+                            Phone Number
+                        </label>
+                        <input type="tel" id="signup-phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-password">
+                            <span class="label-icon">🔒</span>
+                            Password
+                        </label>
+                        <input type="password" id="signup-password" name="password" placeholder="Create a password"
+                            required>
+                        <small class="password-hint">At least 8 characters with letters and numbers</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signup-confirm-password">
+                            <span class="label-icon">🔑</span>
+                            Confirm Password
+                        </label>
+                        <input type="password" id="signup-confirm-password" name="confirm-password"
+                            placeholder="Confirm your password" required>
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="terms-agree" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" class="terms-link">Terms & Conditions</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary auth-submit">
+                        Create Account ✨
+                    </button>
+
+                    <div class="auth-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="social-login">
+                        <button type="button" class="btn-social btn-google">
+                            <span class="social-icon">🔵</span>
+                            Sign up with Google
+                        </button>
+                        <button type="button" class="btn-social btn-facebook">
+                            <span class="social-icon">📘</span>
+                            Sign up with Facebook
+                        </button>
+                    </div>
+
+                    <p class="auth-switch">
+                        Already have an account?
+                        <a href="login.html" class="auth-link">Sign in here</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>👑 BEAUTY QUEENS</h3>
+                <p>Where every woman feels like a queen.</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">📘</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📌</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="index.html">Home</a>
+                <a href="services.html">Services</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>📍 13-453/A Ambedkar nagar Arilova<br>Visakapatnam 530040</p>
+                <p>📞 8309293975</p>
+                <p>✉️ msisir2006@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 BEAUTY QUEENS. All Rights Reserved. | Designed with 💖</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
