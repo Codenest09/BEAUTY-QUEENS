@@ -508,6 +508,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             loginForm.appendChild(successMsg);
 
+            // Store user login state
+            const userName = email.split('@')[0]; // Use email username as the name
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', userName);
+            localStorage.setItem('userEmail', email);
+
             // Simulate redirect (in real app, this would authenticate with backend)
             setTimeout(() => {
                 window.location.href = 'index.html';
@@ -575,10 +581,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
             signupForm.appendChild(successMsg);
 
+            // Store user login state
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userEmail', email);
+
             // Simulate redirect (in real app, this would create account on backend)
             setTimeout(() => {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }, 1500);
         });
     }
+
+    // ===================================
+    // Authentication State Management
+    // ===================================
+
+    // Check if user is logged in
+    function isUserLoggedIn() {
+        return localStorage.getItem('isLoggedIn') === 'true';
+    }
+
+    // Log out user
+    function logoutUser() {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        alert('✓ You have been logged out successfully!');
+        window.location.href = 'index.html';
+    }
+
+    // Update navigation based on auth state
+    function updateNavigation() {
+        const loginLinks = document.querySelectorAll('a[href="login.html"]');
+
+        if (loginLinks.length > 0 && isUserLoggedIn()) {
+            const userName = localStorage.getItem('userName') || 'Queen';
+
+            loginLinks.forEach(loginLink => {
+                // Replace Login with Logout
+                loginLink.textContent = `Logout (${userName})`;
+                loginLink.href = '#';
+                loginLink.classList.add('logout-link');
+
+                loginLink.onclick = (e) => {
+                    e.preventDefault();
+                    logoutUser();
+                };
+            });
+        }
+    }
+
+    // Initialize navigation on page load
+    updateNavigation();
 });
