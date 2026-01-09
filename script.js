@@ -389,3 +389,78 @@ function addFloatingAnimation(selector) {
 window.addEventListener('load', function () {
     addFloatingAnimation('.hero-floral, .floral-bg');
 });
+
+/* ===================================
+   Estimator Page Logic
+   =================================== */
+document.addEventListener('DOMContentLoaded', function () {
+    // Only run if on estimator page
+    const checkboxes = document.querySelectorAll('.checkbox-input');
+    if (checkboxes.length === 0) return;
+
+    const cartBadge = document.getElementById('cartBadge');
+    const floatingCart = document.getElementById('floatingCart');
+
+    function calculateTotal() {
+        let total = 0;
+        checkboxes.forEach(box => {
+            if (box.checked) {
+                total += parseInt(box.getAttribute('data-price'));
+            }
+        });
+        // Update cart badge
+        if (total > 0) {
+            cartBadge.innerText = '₹' + (total / 1000).toFixed(1) + 'K';
+            floatingCart.classList.add('has-items');
+        } else {
+            cartBadge.innerText = '₹0';
+            floatingCart.classList.remove('has-items');
+        }
+    }
+
+    checkboxes.forEach(box => {
+        box.addEventListener('change', calculateTotal);
+    });
+
+    // Cart click to show modal with selected items
+    floatingCart.addEventListener('click', function () {
+        if (floatingCart.classList.contains('has-items')) {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const modalTotal = document.getElementById('modalTotal');
+            const cartModal = document.getElementById('cartModal');
+            const closeModal = document.getElementById('closeModal');
+
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            checkboxes.forEach(box => {
+                if (box.checked) {
+                    const price = parseInt(box.getAttribute('data-price'));
+                    total += price;
+                    const label = box.parentElement.textContent.trim();
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'cart-item';
+                    itemDiv.innerHTML = '<span class="cart-item-name">' + label + '</span><span class="cart-item-price">₹' + price.toLocaleString('en-IN') + '</span>';
+                    cartItemsContainer.appendChild(itemDiv);
+                }
+            });
+
+            modalTotal.innerText = '₹' + total.toLocaleString('en-IN');
+            cartModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            closeModal.onclick = function () {
+                cartModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            cartModal.onclick = function (e) {
+                if (e.target === cartModal) {
+                    cartModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            };
+        }
+    });
+});
