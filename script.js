@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // ===================================
     // Form Validation (Contact & Booking)
     // ===================================
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll('form:not(#loginForm):not(#signupForm)');
 
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
