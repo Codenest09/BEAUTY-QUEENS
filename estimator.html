@@ -87,6 +87,64 @@
             font-weight: bold;
             margin: 10px 0;
         }
+
+        /* Floating Cart Icon */
+        .floating-cart {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gradient-hero);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(255, 105, 180, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-cart:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(255, 105, 180, 0.5);
+        }
+
+        .floating-cart.has-items {
+            animation: bounce 0.5s ease;
+        }
+
+        .cart-icon {
+            font-size: 2.5rem;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--color-gold);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            min-width: 40px;
+            text-align: center;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+        }
     </style>
 </head>
 
@@ -219,14 +277,10 @@
                     </div>
                 </div>
 
-                <!-- Sticky Total Box -->
-                <div class="total-box">
-                    <h3>Estimated Total</h3>
-                    <div class="total-amount" id="totalAmount">₹0</div>
-                    <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 1rem;">*Final price may vary based on
-                        consultation.</p>
-                    <a href="booking.html" class="btn btn-gold" style="width: 100%; display: inline-block;">Book These
-                        Services</a>
+                <!-- Floating Cart Icon with Total -->
+                <div class="floating-cart" id="floatingCart">
+                    <div class="cart-icon">🛒</div>
+                    <div class="cart-badge" id="cartBadge">₹0</div>
                 </div>
 
             </div>
@@ -288,7 +342,8 @@
         // Inline script for price calculation
         document.addEventListener('DOMContentLoaded', function () {
             const checkboxes = document.querySelectorAll('.checkbox-input');
-            const totalDisplay = document.getElementById('totalAmount');
+            const cartBadge = document.getElementById('cartBadge');
+            const floatingCart = document.getElementById('floatingCart');
 
             function calculateTotal() {
                 let total = 0;
@@ -297,12 +352,25 @@
                         total += parseInt(box.getAttribute('data-price'));
                     }
                 });
-                // Animate the number change
-                totalDisplay.innerText = '₹' + total.toLocaleString('en-IN');
+                // Update cart badge
+                if (total > 0) {
+                    cartBadge.innerText = '₹' + (total / 1000).toFixed(1) + 'K';
+                    floatingCart.classList.add('has-items');
+                } else {
+                    cartBadge.innerText = '₹0';
+                    floatingCart.classList.remove('has-items');
+                }
             }
 
             checkboxes.forEach(box => {
                 box.addEventListener('change', calculateTotal);
+            });
+
+            // Cart click to show booking page
+            floatingCart.addEventListener('click', function () {
+                if (floatingCart.classList.contains('has-items')) {
+                    window.location.href = 'booking.html';
+                }
             });
         });
     </script>
