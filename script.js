@@ -319,6 +319,14 @@ document.addEventListener('DOMContentLoaded', function () {
             card.addEventListener('click', function () {
                 serviceCards.forEach(c => c.classList.remove('selected'));
                 this.classList.add('selected');
+
+                // Auto-advance to next step
+                setTimeout(() => {
+                    if (currentStep < bookingSteps.length - 1) {
+                        currentStep++;
+                        updateBooking();
+                    }
+                }, 500); // 500ms delay for visual feedback
             });
         });
 
@@ -328,6 +336,14 @@ document.addEventListener('DOMContentLoaded', function () {
             card.addEventListener('click', function () {
                 stylistCards.forEach(c => c.classList.remove('selected'));
                 this.classList.add('selected');
+
+                // Auto-advance to next step
+                setTimeout(() => {
+                    if (currentStep < bookingSteps.length - 1) {
+                        currentStep++;
+                        updateBooking();
+                    }
+                }, 500); // 500ms delay for visual feedback
             });
         });
 
