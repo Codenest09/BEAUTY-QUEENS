@@ -399,6 +399,44 @@ p {
     font-family: var(--font-heading);
 }
 
+/* Men's Service Cards - Masculine Styling */
+.men-service-card {
+    border-top: 4px solid #3498DB;
+}
+
+.men-service-card:hover {
+    border-top-color: #2C3E50;
+}
+
+.men-service-card .card-price {
+    color: #3498DB;
+}
+
+.men-service-card .btn-primary {
+    background: linear-gradient(135deg, #3498DB, #2C3E50);
+}
+
+.men-service-card .btn-primary:hover {
+    background: linear-gradient(135deg, #2C3E50, #3498DB);
+}
+
+/* Service Duration Badge */
+.service-duration {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: var(--radius-sm);
+    color: #2C3E50;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.men-service-card .service-duration {
+    background: rgba(52, 152, 219, 0.15);
+    color: #3498DB;
+}
+
 /* ===================================
    Glassmorphism Effects
    =================================== */
