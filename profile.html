@@ -192,36 +192,7 @@
 
     <script src="script.js"></script>
     <script type="module" src="auth-observer.js"></script>
-    <script>
-        // Inline script for specific profile functionality ensuring it runs after main script
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check auth
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            if (!isLoggedIn) {
-                // If not logged in, redirect to login
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // Populate data
-            const name = localStorage.getItem('userName') || 'Beauty Queen';
-            const email = localStorage.getItem('userEmail') || 'queen@example.com';
-
-            document.getElementById('profileName').textContent = name;
-            document.getElementById('profileEmail').textContent = email;
-
-            // Logout handler
-            const logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) {
-                logoutBtn.addEventListener('click', function () {
-                    localStorage.removeItem('isLoggedIn');
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('userEmail');
-                    window.location.href = 'index.html';
-                });
-            }
-        });
-    </script>
+    <script type="module" src="profile-handler.js"></script>
 </body>
 
 </html>
