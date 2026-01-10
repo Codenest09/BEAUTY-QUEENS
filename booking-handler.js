@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
         const selectedServices = cart.length > 0 ? cart.map(item => item.name).join(', ') : document.querySelector('.service-select-card.selected')?.dataset.service;
 
-        const stylist = document.querySelector('.stylist-card.selected')?.dataset.stylist;
+        const stylistCard = document.querySelector('.stylist-card.selected');
+        const stylist = stylistCard ? stylistCard.querySelector('h4').textContent : null;
         const date = document.getElementById('date').value;
         const time = document.getElementById('selected-time').value;
         const name = document.getElementById('name').value;
