@@ -7,12 +7,13 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 // TODO: Replace the following with your app's Firebase project configuration
 // These values can be found in the Firebase Console: Project Settings > General > Your Apps
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDSdrVxMaWXNHHnkeV7yyPiQcFGesHEL1I",
+    authDomain: "beauty-queens-bd6cf.firebaseapp.com",
+    projectId: "beauty-queens-bd6cf",
+    storageBucket: "beauty-queens-bd6cf.firebasestorage.app",
+    messagingSenderId: "785739580312",
+    appId: "1:785739580312:web:73fefcada2e2fd824761ed",
+    measurementId: "G-MR4J2RTTJ1"
 };
 
 // Initialize Firebase
