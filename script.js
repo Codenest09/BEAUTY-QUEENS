@@ -491,19 +491,24 @@ document.addEventListener('DOMContentLoaded', function () {
         loginForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const email = document.getElementById('login-email').value;
+            const identifier = document.getElementById('login-identifier').value;
             const password = document.getElementById('login-password').value;
 
             // Basic validation
-            if (!email || !password) {
+            if (!identifier || !password) {
                 alert('Please fill in all fields');
                 return;
             }
 
-            // Email validation
+            // Email or Phone validation
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
+            const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+
+            const isEmail = emailRegex.test(identifier);
+            const isPhone = phoneRegex.test(identifier) && identifier.replace(/\D/g, '').length >= 10;
+
+            if (!isEmail && !isPhone) {
+                alert('Please enter a valid email address or mobile number');
                 return;
             }
 
@@ -525,10 +530,20 @@ document.addEventListener('DOMContentLoaded', function () {
             loginForm.appendChild(successMsg);
 
             // Store user login state
-            const userName = email.split('@')[0]; // Use email username as the name
+            let userName = 'Queen';
+            let userEmail = '';
+
+            if (isEmail) {
+                userName = identifier.split('@')[0];
+                userEmail = identifier;
+            } else {
+                userName = 'User ' + identifier.slice(-4);
+                userEmail = identifier; // Store phone as email identifier for now
+            }
+
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('userName', userName);
-            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userEmail', userEmail);
 
             // Simulate redirect (in real app, this would authenticate with backend)
             setTimeout(() => {
