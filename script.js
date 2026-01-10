@@ -313,12 +313,51 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Service selection
+        // Multi-Step Service Selection with Sub-services
         const serviceCards = document.querySelectorAll('.service-select-card');
+        const subServiceItems = document.querySelectorAll('.sub-service-item');
+
         serviceCards.forEach(card => {
             card.addEventListener('click', function () {
+                const category = this.getAttribute('data-category');
+                const subList = document.getElementById(`sub-${category}`);
+
+                // If already active, just collapse
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    if (subList) subList.classList.remove('active');
+                    return;
+                }
+
+                // Collapse all others
+                serviceCards.forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.sub-services-list').forEach(list => list.classList.remove('active'));
+
+                // Expand this one
+                this.classList.add('active');
+                if (subList) subList.classList.add('active');
+
+                // Scroll to the list for better mobile experience
+                setTimeout(() => {
+                    subList.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            });
+        });
+
+        subServiceItems.forEach(item => {
+            item.addEventListener('click', function () {
+                // Clear all previous selections
+                subServiceItems.forEach(i => i.classList.remove('selected'));
                 serviceCards.forEach(c => c.classList.remove('selected'));
+
+                // Select this item
                 this.classList.add('selected');
+
+                // Add "selected" to parent card for booking-handler compatibility
+                const parentGroup = this.closest('.service-category-group');
+                const parentCard = parentGroup.querySelector('.service-select-card');
+                parentCard.classList.add('selected');
+                parentCard.dataset.service = this.getAttribute('data-service');
 
                 // Auto-advance to next step
                 setTimeout(() => {
@@ -326,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         currentStep++;
                         updateBooking();
                     }
-                }, 500); // 500ms delay for visual feedback
+                }, 600);
             });
         });
 
@@ -372,6 +411,89 @@ document.addEventListener('DOMContentLoaded', function () {
                 }, 600);
             });
         });
+
+        // ===================================
+        // Booking Page Cart Integration
+        // ===================================
+        const bookingSelectedServices = document.getElementById('bookingSelectedServices');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const bookingTotal = document.getElementById('bookingTotal');
+
+        if (bookingSelectedServices && cartItemsList) {
+            let cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+
+            function updateBookingPageUI() {
+                if (cart.length > 0) {
+                    bookingSelectedServices.style.display = 'block';
+                    cartItemsList.innerHTML = '';
+                    let total = 0;
+
+                    cart.forEach((item, index) => {
+                        total += parseInt(item.price);
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'booking-cart-item';
+                        itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);';
+                        itemDiv.innerHTML = `
+                            <div>
+                                <span style="display: block; font-weight: 500;">${item.name}</span>
+                                <span style="color: var(--color-rose); font-size: 0.9rem;">₹${parseInt(item.price).toLocaleString('en-IN')}</span>
+                            </div>
+                            <button class="remove-booking-item" data-index="${index}" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.1rem; padding: 0.3rem;">✕</button>
+                        `;
+                        cartItemsList.appendChild(itemDiv);
+                    });
+
+                    bookingTotal.innerText = '₹' + total.toLocaleString('en-IN');
+
+                    // Stylist Selection Logic for Cart Section
+                    const miniStylistCards = document.querySelectorAll('.stylist-card-mini');
+                    miniStylistCards.forEach(miniCard => {
+                        miniCard.addEventListener('click', function () {
+                            miniStylistCards.forEach(c => c.classList.remove('selected'));
+                            this.classList.add('selected');
+
+                            // Sync with main stylist selection cards
+                            const stylist = this.dataset.stylist;
+                            const mainCard = document.querySelector(`.stylist-card[data-stylist="${stylist}"]`);
+                            if (mainCard) {
+                                document.querySelectorAll('.stylist-card').forEach(c => c.classList.remove('selected'));
+                                mainCard.classList.add('selected');
+                            }
+                        });
+                    });
+
+                    // Modify Cart Proceed Button Behavior
+                    const cartProceedBtn = document.getElementById('cartProceedBtn');
+                    if (cartProceedBtn) {
+                        cartProceedBtn.onclick = function () {
+                            const selectedMiniStylist = document.querySelector('.stylist-card-mini.selected');
+                            if (!selectedMiniStylist) {
+                                alert('Please select a stylist before proceeding ✨');
+                                return;
+                            }
+
+                            // Jump to Step 3
+                            currentStep = 2;
+                            updateBooking();
+                        };
+                    }
+
+                    // Add remove listeners for booking page
+                    document.querySelectorAll('.remove-booking-item').forEach(btn => {
+                        btn.addEventListener('click', function () {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cart.splice(index, 1);
+                            localStorage.setItem('beautyQueensCart', JSON.stringify(cart));
+                            updateBookingPageUI();
+                        });
+                    });
+                } else {
+                    bookingSelectedServices.style.display = 'none';
+                }
+            }
+
+            updateBookingPageUI();
+        }
     }
 
     // ===================================
@@ -410,75 +532,121 @@ window.addEventListener('load', function () {
    Estimator Page Logic
    =================================== */
 document.addEventListener('DOMContentLoaded', function () {
-    // Only run if on estimator page
     const checkboxes = document.querySelectorAll('.checkbox-input');
     if (checkboxes.length === 0) return;
 
     const cartBadge = document.getElementById('cartBadge');
     const floatingCart = document.getElementById('floatingCart');
+    const cartItemsContainer = document.getElementById('cartItems');
+    const modalTotal = document.getElementById('modalTotal');
+    const cartModal = document.getElementById('cartModal');
+    const closeModal = document.getElementById('closeModal');
 
-    function calculateTotal() {
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+
+    function updateCartUI() {
         let total = 0;
-        checkboxes.forEach(box => {
-            if (box.checked) {
-                total += parseInt(box.getAttribute('data-price'));
-            }
-        });
-        // Update cart badge
-        if (total > 0) {
-            cartBadge.innerText = '₹' + (total / 1000).toFixed(1) + 'K';
-            floatingCart.classList.add('has-items');
-        } else {
+        cartItemsContainer.innerHTML = '';
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-center" style="padding: 2rem; color: #999;">Your cart is empty 👑</p>';
             cartBadge.innerText = '₹0';
             floatingCart.classList.remove('has-items');
+            modalTotal.innerText = '₹0';
+            return;
         }
+
+        cart.forEach((item, index) => {
+            total += parseInt(item.price);
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'cart-item';
+            itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid #eee;';
+            itemDiv.innerHTML = `
+                <div class="cart-item-info">
+                    <span class="cart-item-name" style="font-weight: 500; display: block;">${item.name}</span>
+                    <span class="cart-item-price" style="color: var(--color-rose); font-weight: bold;">₹${parseInt(item.price).toLocaleString('en-IN')}</span>
+                </div>
+                <button class="remove-item" data-index="${index}" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 1.2rem; padding: 0.5rem;" title="Remove">🗑️</button>
+            `;
+            cartItemsContainer.appendChild(itemDiv);
+        });
+
+        // Update badge and modal
+        cartBadge.innerText = '₹' + (total / 1000).toFixed(1) + 'K';
+        floatingCart.classList.add('has-items');
+        modalTotal.innerText = '₹' + total.toLocaleString('en-IN');
+
+        // Add remove listeners
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const index = parseInt(this.getAttribute('data-index'));
+                const removedItem = cart[index];
+                cart.splice(index, 1);
+
+                // Uncheck corresponding checkbox if it exists on page
+                const checkbox = document.querySelector(`.checkbox-input[data-id="${removedItem.id}"]`);
+                if (checkbox) checkbox.checked = false;
+
+                saveCart();
+                updateCartUI();
+            });
+        });
     }
 
+    function saveCart() {
+        localStorage.setItem('beautyQueensCart', JSON.stringify(cart));
+    }
+
+    // Initialize checkboxes from cart
     checkboxes.forEach(box => {
-        box.addEventListener('change', calculateTotal);
+        const id = box.getAttribute('data-id');
+        if (cart.find(item => item.id === id)) {
+            box.checked = true;
+        }
+
+        box.addEventListener('change', function () {
+            const id = this.getAttribute('data-id');
+            const name = this.parentElement.textContent.trim();
+            const price = this.getAttribute('data-price');
+
+            if (this.checked) {
+                if (!cart.find(item => item.id === id)) {
+                    cart.push({ id, name, price });
+                }
+            } else {
+                cart = cart.filter(item => item.id !== id);
+            }
+            saveCart();
+            updateCartUI();
+        });
     });
 
-    // Cart click to show modal with selected items
+    // Cart click to show modal
     floatingCart.addEventListener('click', function () {
-        if (floatingCart.classList.contains('has-items')) {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const modalTotal = document.getElementById('modalTotal');
-            const cartModal = document.getElementById('cartModal');
-            const closeModal = document.getElementById('closeModal');
+        updateCartUI();
+        cartModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
+    if (closeModal) {
+        closeModal.onclick = function () {
+            cartModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+    }
 
-            checkboxes.forEach(box => {
-                if (box.checked) {
-                    const price = parseInt(box.getAttribute('data-price'));
-                    total += price;
-                    const label = box.parentElement.textContent.trim();
-
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'cart-item';
-                    itemDiv.innerHTML = '<span class="cart-item-name">' + label + '</span><span class="cart-item-price">₹' + price.toLocaleString('en-IN') + '</span>';
-                    cartItemsContainer.appendChild(itemDiv);
-                }
-            });
-
-            modalTotal.innerText = '₹' + total.toLocaleString('en-IN');
-            cartModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            closeModal.onclick = function () {
+    if (cartModal) {
+        cartModal.onclick = function (e) {
+            if (e.target === cartModal) {
                 cartModal.classList.remove('active');
                 document.body.style.overflow = '';
-            };
+            }
+        };
+    }
 
-            cartModal.onclick = function (e) {
-                if (e.target === cartModal) {
-                    cartModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            };
-        }
-    });
+    // Initial UI update
+    updateCartUI();
 });
 
 /* ===================================
@@ -534,4 +702,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize navigation on page load
     updateNavigation();
+
+    // ===================================
+    // Password Visibility Toggle
+    // ===================================
+    const passwordToggles = document.querySelectorAll('.password-toggle');
+
+    passwordToggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const input = this.previousElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                this.textContent = '🙈'; // Hide icon
+            } else {
+                input.type = 'password';
+                this.textContent = '👁️'; // Show icon
+            }
+        });
+    });
+
 });

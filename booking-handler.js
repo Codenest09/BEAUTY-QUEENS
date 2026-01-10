@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         // Get booking data
-        const service = document.querySelector('.service-select-card.selected')?.dataset.service;
+        const cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+        const selectedServices = cart.length > 0 ? cart.map(item => item.name).join(', ') : document.querySelector('.service-select-card.selected')?.dataset.service;
+
         const stylist = document.querySelector('.stylist-card.selected')?.dataset.stylist;
         const date = document.getElementById('date').value;
         const time = document.getElementById('selected-time').value;
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value;
         const notes = document.getElementById('notes').value;
 
-        if (!service || !stylist || !date || !time || !name || !phone || !email) {
+        if (!selectedServices || !stylist || !date || !time || !name || !phone || !email) {
             alert('Please complete all booking steps and contact details.');
             return;
         }
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Save to Firestore
             await addDoc(collection(db, "bookings"), {
                 userId: currentUser ? currentUser.uid : 'guest',
-                service,
+                services: selectedServices, // Updated to plural
                 stylist,
                 date,
                 time,
@@ -50,9 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 clientPhone: phone,
                 clientEmail: email,
                 notes,
+                totalAmount: cart.reduce((acc, item) => acc + parseInt(item.price), 0),
                 status: 'pending',
                 timestamp: serverTimestamp()
             });
+
+            // Clear cart on success
+            localStorage.removeItem('beautyQueensCart');
 
             // Navigate to confirmation step
             // This relies on the global currentStep and updateBooking being available

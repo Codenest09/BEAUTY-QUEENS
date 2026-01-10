@@ -27,29 +27,101 @@
 
         .service-select-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-category-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .service-select-card {
-            background: var(--color-white);
-            border: 3px solid var(--color-light-gray);
+            background: white;
+            padding: 2rem;
             border-radius: var(--radius-lg);
-            padding: var(--spacing-md);
             text-align: center;
+            border: 2px solid transparent;
             cursor: pointer;
-            transition: var(--transition-base);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
         }
 
         .service-select-card:hover {
-            border-color: var(--color-rose);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-lavender);
         }
 
-        .service-select-card.selected {
+        .service-select-card.active {
             border-color: var(--color-rose);
-            background: var(--gradient-card);
+            background: linear-gradient(135deg, #fff, var(--color-soft-pink));
+        }
+
+        .sub-services-list {
+            display: none;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius-md);
+            padding: 0.5rem;
+            border: 1px solid var(--color-lavender);
+            margin-top: -0.5rem;
+            animation: slideDown 0.3s ease-out;
+            z-index: 5;
+        }
+
+        .sub-services-list.active {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sub-service-item {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            color: var(--color-deep-purple);
+        }
+
+        .sub-service-item:hover {
+            background: var(--color-soft-pink);
+            padding-left: 1.25rem;
+        }
+
+        .sub-service-item.selected {
+            background: var(--color-rose);
+            color: white;
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: var(--color-rose);
+            font-size: 0.9rem;
+        }
+
+        .sub-service-item.selected .price-tag {
+            color: white;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .service-icon {
@@ -233,6 +305,50 @@
             transform: scale(1.01);
         }
 
+        /* Mini Stylist Selection Styling */
+        .stylist-card-mini {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 2px solid var(--color-lavender);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stylist-card-mini:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-rose);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stylist-card-mini.selected {
+            background: var(--color-soft-pink);
+            border-color: var(--color-rose);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stylist-img-mini {
+            font-size: 1.5rem;
+            background: var(--gradient-hero);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stylist-card-mini span {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .time-slots-grid {
@@ -355,36 +471,187 @@
             <!-- Step 1: Choose Service -->
             <div class="booking-step active" id="step1">
                 <h2 class="text-center mb-2">Choose Your Service</h2>
+
+                <!-- Dynamic Cart Items Container (Hidden if empty) -->
+                <div id="bookingSelectedServices" class="glass-card mb-3"
+                    style="display: none; padding: var(--spacing-md);">
+                    <h3 style="color: var(--color-rose); margin-bottom: 1rem; font-size: 1.25rem;">🛍️ Your Selections
+                        (From Estimator)</h3>
+                    <div id="cartItemsList"></div>
+
+                    <!-- New Stylist Selection inside Cart Section -->
+                    <div id="cartStylistSection"
+                        style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid var(--color-soft-pink);">
+                        <h4 style="color: var(--color-dark); margin-bottom: 1rem; font-size: 1.1rem;">✨ Select Your
+                            Stylist</h4>
+                        <div class="stylist-grid-mini" id="cartStylistGrid"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                            <div class="stylist-card-mini" data-stylist="emma">
+                                <div class="stylist-img-mini">👩</div>
+                                <span>Satya sisir</span>
+                            </div>
+                            <div class="stylist-card-mini" data-stylist="sophia">
+                                <div class="stylist-img-mini">👩</div>
+                                <span>Siri</span>
+                            </div>
+                            <div class="stylist-card-mini" data-stylist="olivia">
+                                <div class="stylist-img-mini">👩</div>
+                                <span>Anudeep</span>
+                            </div>
+                            <div class="stylist-card-mini" data-stylist="ava">
+                                <div class="stylist-img-mini">👩</div>
+                                <span>Kruthi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        style="margin-top: 1.5rem; padding-top: 1rem; border-top: 2px solid var(--color-soft-pink); display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 1.5rem;">
+                        <span>Total Estimate:</span>
+                        <span id="bookingTotal">₹0</span>
+                    </div>
+                    <button class="btn btn-primary next-step" id="cartProceedBtn" style="width: 100%;">Confirm & Choose
+                        Date/Time →</button>
+                    <div class="auth-divider"><span>OR SELECT NEW SERVICES BELOW</span></div>
+                </div>
+
                 <div class="service-select-grid">
-                    <div class="service-select-card" data-service="hair">
-                        <div class="service-icon">💇</div>
-                        <h4>Hair Styling</h4>
-                        <p>From ₹4,000</p>
+                    <!-- Hair Styling -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="hair">
+                            <div class="service-icon">💇</div>
+                            <h4>Hair Styling</h4>
+                            <p>Classic to Royal Care</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-hair">
+                            <div class="sub-service-item" data-service="Classic Haircut & Blowout">
+                                <span>Classic Haircut & Blowout</span>
+                                <span class="price-tag">₹4,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Royal Styling & Spa">
+                                <span>Royal Styling & Spa</span>
+                                <span class="price-tag">₹5,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Luxury Coloring/Balayage">
+                                <span>Luxury Coloring/Balayage</span>
+                                <span class="price-tag">₹6,500</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="service-select-card" data-service="makeup">
-                        <div class="service-icon">💄</div>
-                        <h4>Makeup & Bridal</h4>
-                        <p>From ₹4,000</p>
+
+                    <!-- Makeup -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="makeup">
+                            <div class="service-icon">💄</div>
+                            <h4>Makeup & Bridal</h4>
+                            <p>Look Your Absolute Best</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-makeup">
+                            <div class="sub-service-item" data-service="Bridal Royal Pack">
+                                <span>Bridal Royal Pack</span>
+                                <span class="price-tag">₹20,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Party/Glam Makeup">
+                                <span>Party/Glam Makeup</span>
+                                <span class="price-tag">₹6,500</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Natural/Day Makeup">
+                                <span>Natural/Day Makeup</span>
+                                <span class="price-tag">₹4,000</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="service-select-card" data-service="skincare">
-                        <div class="service-icon">✨</div>
-                        <h4>Skincare & Facials</h4>
-                        <p>From ₹5,500</p>
+
+                    <!-- Skincare -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="skincare">
+                            <div class="service-icon">✨</div>
+                            <h4>Skincare & Facials</h4>
+                            <p>Radiant & Glowing Skin</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-skincare">
+                            <div class="sub-service-item" data-service="Hydra-Glow Facial">
+                                <span>Hydra-Glow Facial</span>
+                                <span class="price-tag">₹5,500</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Royal Anti-Aging Treatment">
+                                <span>Royal Anti-Aging Treatment</span>
+                                <span class="price-tag">₹10,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Acne/Detox Therapy">
+                                <span>Acne/Detox Therapy</span>
+                                <span class="price-tag">₹4,500</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="service-select-card" data-service="spa">
-                        <div class="service-icon">🧖</div>
-                        <h4>Spa & Relaxation</h4>
-                        <p>From ₹5,500</p>
+
+                    <!-- Spa -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="spa">
+                            <div class="service-icon">🧖</div>
+                            <h4>Spa & Relaxation</h4>
+                            <p>Peace & Tranquility</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-spa">
+                            <div class="sub-service-item" data-service="Full Body Swedish Massage">
+                                <span>Full Body Swedish Massage</span>
+                                <span class="price-tag">₹7,500</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Aromatherapy Spa">
+                                <span>Aromatherapy Spa</span>
+                                <span class="price-tag">₹6,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Hot Stone Therapy">
+                                <span>Hot Stone Therapy</span>
+                                <span class="price-tag">₹8,500</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="service-select-card" data-service="nails">
-                        <div class="service-icon">💅</div>
-                        <h4>Nail Care</h4>
-                        <p>From ₹2,500</p>
+
+                    <!-- Nails -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="nails">
+                            <div class="service-icon">💅</div>
+                            <h4>Nail Care</h4>
+                            <p>Perfect Polish & Art</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-nails">
+                            <div class="sub-service-item" data-service="Classic Mani-Pedi">
+                                <span>Classic Mani-Pedi</span>
+                                <span class="price-tag">₹3,500</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Gel Extensions & Art">
+                                <span>Gel Extensions & Art</span>
+                                <span class="price-tag">₹4,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Luxury Hand/Foot Spa">
+                                <span>Luxury Hand/Foot Spa</span>
+                                <span class="price-tag">₹2,500</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="service-select-card" data-service="package">
-                        <div class="service-icon">👑</div>
-                        <h4>Beauty Package</h4>
-                        <p>From ₹12,000</p>
+
+                    <!-- Packages -->
+                    <div class="service-category-group">
+                        <div class="service-select-card" data-category="package">
+                            <div class="service-icon">👑</div>
+                            <h4>Beauty Package</h4>
+                            <p>The Royal Treatment</p>
+                        </div>
+                        <div class="sub-services-list" id="sub-package">
+                            <div class="sub-service-item" data-service="Queen's Full Day Pack">
+                                <span>Queen's Full Day Pack</span>
+                                <span class="price-tag">₹12,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Bridal Pre-Wedding Glow">
+                                <span>Bridal Pre-Wedding Glow</span>
+                                <span class="price-tag">₹15,000</span>
+                            </div>
+                            <div class="sub-service-item" data-service="Party Ready Combo">
+                                <span>Party Ready Combo</span>
+                                <span class="price-tag">₹8,000</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="booking-actions">
