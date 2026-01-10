@@ -346,26 +346,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
         subServiceItems.forEach(item => {
             item.addEventListener('click', function () {
-                // Clear all previous selections
-                subServiceItems.forEach(i => i.classList.remove('selected'));
-                serviceCards.forEach(c => c.classList.remove('selected'));
+                // Toggle selection
+                this.classList.toggle('selected');
+                const isSelected = this.classList.contains('selected');
 
-                // Select this item
-                this.classList.add('selected');
+                // Get details
+                const serviceName = this.getAttribute('data-service');
+                const servicePrice = this.getAttribute('data-price'); // Added in booking.html
 
-                // Add "selected" to parent card for booking-handler compatibility
-                const parentGroup = this.closest('.service-category-group');
-                const parentCard = parentGroup.querySelector('.service-select-card');
-                parentCard.classList.add('selected');
-                parentCard.dataset.service = this.getAttribute('data-service');
+                // We use the service name as ID for consistency with estimator logic
+                // Or generate a slugId if preferred, but existing estimator uses name logic or specific IDs.
+                // Let's stick to using the service name as the unique identifier for now, 
+                // or match the ID logic from estimator if we can.
+                // Estimator used data-id. We can use service name as a fallback unique key.
+                const serviceId = serviceName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-                // Auto-advance to next step
-                setTimeout(() => {
-                    if (currentStep < bookingSteps.length - 1) {
-                        currentStep++;
-                        updateBooking();
+                // Update Cart (localStorage)
+                let cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+
+                if (isSelected) {
+                    // Add to cart if not exists
+                    if (!cart.find(i => i.name === serviceName)) {
+                        cart.push({
+                            id: serviceId,
+                            name: serviceName,
+                            price: servicePrice
+                        });
                     }
-                }, 600);
+                } else {
+                    // Remove from cart
+                    cart = cart.filter(i => i.name !== serviceName);
+                }
+
+                localStorage.setItem('beautyQueensCart', JSON.stringify(cart));
+
+                // Update UI immediately
+                // We need to call the function defined inside 'Booking Page Cart Integration' scope.
+                // Since that scope is isolated, we might need to move that function out or trigger a custom event.
+                // Ideally, we move the cart logic to a shared scope.
+                // For now, let's dispatch a custom event that the cart handler can listen to, or simply reload the handler if reachable.
+
+                // Dispatch event for local updates
+                window.dispatchEvent(new Event('cartUpdated'));
             });
         });
 
@@ -420,9 +442,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const bookingTotal = document.getElementById('bookingTotal');
 
         if (bookingSelectedServices && cartItemsList) {
-            let cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
 
             function updateBookingPageUI() {
+                let cart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+
+                // 1. Update Top Summary Box
                 if (cart.length > 0) {
                     bookingSelectedServices.style.display = 'block';
                     cartItemsList.innerHTML = '';
@@ -444,54 +468,85 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
 
                     bookingTotal.innerText = '₹' + total.toLocaleString('en-IN');
-
-                    // Stylist Selection Logic for Cart Section
-                    const miniStylistCards = document.querySelectorAll('.stylist-card-mini');
-                    miniStylistCards.forEach(miniCard => {
-                        miniCard.addEventListener('click', function () {
-                            miniStylistCards.forEach(c => c.classList.remove('selected'));
-                            this.classList.add('selected');
-
-                            // Sync with main stylist selection cards
-                            const stylist = this.dataset.stylist;
-                            const mainCard = document.querySelector(`.stylist-card[data-stylist="${stylist}"]`);
-                            if (mainCard) {
-                                document.querySelectorAll('.stylist-card').forEach(c => c.classList.remove('selected'));
-                                mainCard.classList.add('selected');
-                            }
-                        });
-                    });
-
-                    // Modify Cart Proceed Button Behavior
-                    const cartProceedBtn = document.getElementById('cartProceedBtn');
-                    if (cartProceedBtn) {
-                        cartProceedBtn.onclick = function () {
-                            const selectedMiniStylist = document.querySelector('.stylist-card-mini.selected');
-                            if (!selectedMiniStylist) {
-                                alert('Please select a stylist before proceeding ✨');
-                                return;
-                            }
-
-                            // Jump to Step 3
-                            currentStep = 2;
-                            updateBooking();
-                        };
-                    }
-
-                    // Add remove listeners for booking page
-                    document.querySelectorAll('.remove-booking-item').forEach(btn => {
-                        btn.addEventListener('click', function () {
-                            const index = parseInt(this.getAttribute('data-index'));
-                            cart.splice(index, 1);
-                            localStorage.setItem('beautyQueensCart', JSON.stringify(cart));
-                            updateBookingPageUI();
-                        });
-                    });
                 } else {
                     bookingSelectedServices.style.display = 'none';
                 }
+
+                // 2. Sync Grid Selection State
+                // Clear all first
+                document.querySelectorAll('.sub-service-item').forEach(el => el.classList.remove('selected'));
+
+                // Re-apply selected class based on cart
+                cart.forEach(item => {
+                    // Try to find by data-service name
+                    const match = document.querySelector(`.sub-service-item[data-service="${item.name}"]`);
+                    if (match) {
+                        match.classList.add('selected');
+                        // Also highlight parent card
+                        const parentGroup = match.closest('.service-category-group');
+                        if (parentGroup) {
+                            const parentCard = parentGroup.querySelector('.service-select-card');
+                            if (parentCard) parentCard.classList.add('active'); // active, not selected (to keep it open if wanted)
+                        }
+                    }
+                });
+
+
+                // Re-bind remove listners
+                document.querySelectorAll('.remove-booking-item').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const index = parseInt(this.getAttribute('data-index'));
+                        // Reload cart to be safe
+                        let currentCart = JSON.parse(localStorage.getItem('beautyQueensCart')) || [];
+                        currentCart.splice(index, 1);
+                        localStorage.setItem('beautyQueensCart', JSON.stringify(currentCart));
+                        updateBookingPageUI(); // Recursive update
+
+                        // Also uncheck the item in the grid visually
+                        // The updateBookingPageUI call above handles the visual sync logic already!
+                    });
+                });
+
             }
 
+            // Stylist Selection Logic for Cart Section (Static Binding)
+            const miniStylistCards = document.querySelectorAll('.stylist-card-mini');
+            miniStylistCards.forEach(miniCard => {
+                miniCard.addEventListener('click', function () {
+                    miniStylistCards.forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Sync with main stylist selection cards
+                    const stylist = this.dataset.stylist;
+                    const mainCard = document.querySelector(`.stylist-card[data-stylist="${stylist}"]`);
+                    if (mainCard) {
+                        document.querySelectorAll('.stylist-card').forEach(c => c.classList.remove('selected'));
+                        mainCard.classList.add('selected');
+                    }
+                });
+            });
+
+            // Modify Cart Proceed Button Behavior (Static Binding)
+            const cartProceedBtn = document.getElementById('cartProceedBtn');
+            if (cartProceedBtn) {
+                cartProceedBtn.onclick = function () {
+                    const selectedMiniStylist = document.querySelector('.stylist-card-mini.selected');
+
+                    if (selectedMiniStylist) {
+                        // Stylist selected, skip to Step 3 (Date/Time)
+                        currentStep = 2; // Index 2 is Step 3
+                    } else {
+                        // No stylist selected in mini-cart, go to Step 2 (Stylist) normal flow
+                        currentStep = 1; // Index 1 is Step 2
+                    }
+                    updateBooking();
+                };
+            }
+
+            // Listen for custom event from grid clicks
+            window.addEventListener('cartUpdated', updateBookingPageUI);
+
+            // Initial Load
             updateBookingPageUI();
         }
     }
